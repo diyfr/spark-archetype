@@ -1,0 +1,21 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "",
+    "version": "@project.version@",
+    "title": "",
+    "termsOfService": "",
+    "contact": {
+      "name": "",
+      "email": ""
+    },
+    "license": {
+      "name": ""
+    }
+  },
+  "host": "{{HOST}}",
+  "basePath": "{{BASE_PATH}}",
+  "schemes": [
+    "{{SCHEME}}"
+  ],
+}

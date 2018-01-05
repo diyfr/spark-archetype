@@ -1,0 +1,12 @@
+server:
+  port: 8080
+  maxThreads: 8
+  version: @project.version@
+swagger-ui:
+  host: "localhost:8080"
+  scheme: "http"
+  basePath: "/api"
+database:
+  url: "jdbc:postgresql://postgres:5432/mydb"
+  user: "db_user"
+  password: "db_pwd"

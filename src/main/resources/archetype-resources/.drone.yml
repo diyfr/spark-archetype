@@ -1,0 +1,18 @@
+pipeline:
+  build:
+    image: maven
+    pull: true
+    commands:
+      - mvn clean
+      - mvn package
+      - echo $(cat pom.xml |grep -oPm1 "(?<=<version>)[^<]+")", latest" > .tags
+      - env
+  publish:
+    image: plugins/docker
+    repo: yourregistry.example.com/${artifactId}/app
+    registry: yourregistry.example.com
+    dockerfile: Dockerfile
+    secrets: [ docker_username, docker_password ]
+    when:
+      branch: master
+      event: push
