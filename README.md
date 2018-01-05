@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/diyfr/spark-archetype.svg?branch=master)](https://travis-ci.org/diyfr/spark-archetype)   
+
 ## Custom Spark Archetype :
 * Spark Java a lightweight server  
 * SQL2o a light library for easy query database with postgresl connection  
