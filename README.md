@@ -4,7 +4,7 @@
 * Google Guice (lightweight dependency injection)  
 * Gson  
 * Lombok  
-* Custom properties loader (Yaml UTF8 format or classi properties file)   
+* Custom properties loader (Yaml UTF8 format or classic properties file)   
 * Swagger model exposition  
 * Dockerfile and Drone configuration for CI  
 
@@ -25,7 +25,7 @@ Optionnal : refresh your local repository
 ```bash
 mvn archetype:update-local-catalog
 ```
-In your workspace (not in spark-archetype folder) use template for build your project
+In your workspace (not in spark-archetype folder) use template for build your project.  
 replace <value> by your values 
 
 ```bash
