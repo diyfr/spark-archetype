@@ -1,0 +1,12 @@
+# Travis CI Configuration file
+# @link https://travis-ci.org/
+
+# Using Java for the project
+language: java
+matrix:
+  include:
+    # Code artifacts deployed with openjdk7
+    - jdk: openjdk8
+script:
+  # Unit, integration and archetype tests are run
+- mvn clean verify
