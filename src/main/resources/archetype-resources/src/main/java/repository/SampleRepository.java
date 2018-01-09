@@ -65,7 +65,7 @@ public class SampleRepository {
         try (Connection con = database.getConnection()) {
             long techId = (Long) con.createQuery(INSERT, true)
                     .addParameter("title", sample.getTitle())
-                    .addParameter("sub title", sample.getSubTitle())
+                    .addParameter("sub_title", sample.getSubTitle())
                     .addParameter("version", sample.getVersion())
                     .executeUpdate().getKey();
             sample.setTechId(techId);

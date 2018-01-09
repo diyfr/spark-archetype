@@ -11,12 +11,14 @@ import spark.Response;
 import spark.Route;
 import spark.Spark;
 
+import javax.inject.Singleton;
 import javax.inject.Inject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+@Singleton
 public class SwaggerController {
 
     private final static String PATH = "api/";
