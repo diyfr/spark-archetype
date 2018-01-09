@@ -21,7 +21,7 @@
       <directory>src/main/resources</directory>
       <includes>
         <include>**/*.json</include>
-        <include>**/*.yml</include>
+        <include>**/*.yaml</include>
       </includes>
     </fileSet>
   </fileSets>
