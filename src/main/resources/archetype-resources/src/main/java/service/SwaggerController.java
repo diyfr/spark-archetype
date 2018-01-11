@@ -29,7 +29,7 @@ public class SwaggerController {
     @Inject
     private Properties properties;
 
-    private Logger log = LoggerFactory.getLogger(SwaggerController.class);
+    private static final Logger log = LoggerFactory.getLogger(SwaggerController.class);
 
     public void init() {
         Spark.get(PATH, redirectToGetSwaggerModel);

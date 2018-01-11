@@ -102,18 +102,22 @@ public class Properties {
         if (localFile.exists()) {
             // File exist
             locationConfigFile = localFile.getAbsolutePath();
-            if (Files.getFileExtension(localFile.getAbsolutePath()).equals(YAML_EXTENSION)) {
-                builder = new FileBasedConfigurationBuilder<FileBasedConfiguration>(YAMLConfiguration.class)
-                        .configure(params.fileBased()
-                                .setFile(localFile));
+            switch (Files.getFileExtension(localFile.getAbsolutePath())) {
+                case YAML_EXTENSION:
+                    builder = new FileBasedConfigurationBuilder<FileBasedConfiguration>(YAMLConfiguration.class)
+                            .configure(params.fileBased()
+                                    .setFile(localFile));
 
-            } else if (Files.getFileExtension(localFile.getAbsolutePath()).equals(PROPERTIES_EXTENSION)) {
-                builder = new FileBasedConfigurationBuilder<FileBasedConfiguration>(PropertiesConfiguration.class)
-                        .configure(params.fileBased()
-                                .setFile(localFile));
-            } else {
-                log.error("Unknow configuration file extension");
-                locationConfigFile = null;
+                    break;
+                case PROPERTIES_EXTENSION:
+                    builder = new FileBasedConfigurationBuilder<FileBasedConfiguration>(PropertiesConfiguration.class)
+                            .configure(params.fileBased()
+                                    .setFile(localFile));
+                    break;
+                default:
+                    log.error("Unknow configuration file extension");
+                    locationConfigFile = null;
+                    break;
             }
         } else {
             // File doesn't exist test in classpath
