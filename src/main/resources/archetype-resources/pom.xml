@@ -20,6 +20,7 @@
         <sql2o-plugin-version>1.5.4</sql2o-plugin-version>
         <lombok-plugin-version>1.16.18</lombok-plugin-version>
         <springframework-version>5.0.0.RELEASE</springframework-version>
+        <logback-version>1.2.3</logback-version>
     </properties>
 
     <dependencies>
@@ -27,11 +28,17 @@
             <groupId>com.sparkjava</groupId>
             <artifactId>spark-core</artifactId>
             <version>${spark-core-plugin-version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.25</version>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback-version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -89,14 +96,17 @@
     </dependencies>
 
     <build>
-        <finalName>${project.groupId}-${project.artifactId}-${project.version}</finalName>
+        <finalName>${project.groupId}.${project.artifactId}-${project.version}</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
                     <include>application.yml</include>
-                    <include>swagger.yaml</include>
+                    <include>swagger.yml</include>
                     <include>swagger.json</include>
+                    <include>logback.xml</include>
+                    <include>logback_dev.xml</include>
+                    <include>logback_rec.xml</include>
                 </includes>
                 <filtering>true</filtering>
             </resource>

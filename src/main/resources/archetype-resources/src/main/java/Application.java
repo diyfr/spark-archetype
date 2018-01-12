@@ -5,6 +5,7 @@ package ${groupId}.${artifactId};
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import ${groupId}.${artifactId}.config.LogBackConfiguration;
 import ${groupId}.${artifactId}.config.Properties;
 import ${groupId}.${artifactId}.service.SwaggerController;
 import org.slf4j.Logger;
@@ -30,9 +31,15 @@ public class Application {
     }
 
     @Inject
-    public Application(SwaggerController swaggerController, Properties properties) {
+    public Application(SwaggerController swaggerController,
+		       Properties properties,
+		       LogBackConfiguration logBackConfiguration) {
         this.properties = properties;
-
+        // Configure Logback
+        logBackConfiguration.setConfiguration(
+                this.properties.getString("logging.file"),
+                this.properties.getString("logging.config"),
+                this.properties.getString("logging.profile"));
         String ver = this.properties.getString("server.version");
         log.info("Start Spark server " + ((ver != null) ? "version " + ver : ""));
         if (this.properties.getInt("server.port", 0) != 0) {

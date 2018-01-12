@@ -75,9 +75,9 @@ public class Database {
         private final static String GET_VERSION = "SELECT version FROM " + TABLE_NAME + " where tablename LIKE :tablename";
         private final static String SET_VERSION = "INSERT INTO " + TABLE_NAME + "(tablename, version) VALUES (:tablename,:version) ON CONFLICT(tablename) DO UPDATE SET version= :version ";
 
-        private Logger log = LoggerFactory.getLogger(TableVersionRepository.class);
+        private final Logger log = LoggerFactory.getLogger(TableVersionRepository.class);
 
-        private Database database;
+        private final Database database;
 
         TableVersionRepository(Database database) {
             this.database = database;

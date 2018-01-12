@@ -2,6 +2,16 @@ server:
   port: 8080
   maxThreads: 8
   version: @project.version@
+# Log configuration
+logging:
+  file: "target/log/@project.name@.log"
+# Log profile extension, PRD or PROD equals null -> search logback.xml
+# Search filename with this format logback_${logging.profile}.xml
+# exemple "dev"  search logback_dev.xml
+  profile: "dev"
+# Or Log configuration location
+# config: "config/logback.xml"
+
 swagger-ui:
   host: "localhost:8080"
   scheme: "http"

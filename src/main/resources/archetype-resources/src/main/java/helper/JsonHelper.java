@@ -34,6 +34,21 @@ public class JsonHelper {
     }
 
     /**
+     * Set Json message with Http Error
+     * @param code Http Code
+     * @param message Message
+     * @return String
+     */
+    public static String responseError(int code, String message) {
+        final Gson gson = gsonBuilder
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+                .registerTypeAdapter(Timestamp.class, new TimestampAdapter())
+                .create();
+        return gson.toJson(new Error(code, message));
+    }
+
+    /**
      * Check if request accept response Json format
      *
      * @param request Request
@@ -72,5 +87,36 @@ public class JsonHelper {
         public JsonElement serialize(Timestamp timestamp, Type typeOfSrc, JsonSerializationContext context) {
             return new JsonPrimitive(timestamp.toLocalDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         }
+    }
+
+    /**
+     * Inner class for JSON response Error
+     */
+    static class Error {
+        @Expose
+        @SerializedName("error")
+        public final ErrorContent error;
+
+        public Error(int code, String message) {
+            error = new ErrorContent(code, message);
+        }
+    }
+
+    /**
+     * Inner class for JSON response Error
+     */
+    static class ErrorContent {
+
+
+        @Expose
+        public final int code;
+        @Expose
+        public final String message;
+
+        public ErrorContent(int code, String message) {
+            this.code = code;
+            this.message = message;
+        }
+
     }
 }

@@ -47,7 +47,7 @@ public class Properties {
      */
     private File getFile(String path) {
         File result;
-        String basePath = (path != null) ? path + "\\" + CONFIG_FILENAME : CONFIG_FILENAME;
+        String basePath = (path != null) ? path + File.separator  + CONFIG_FILENAME : CONFIG_FILENAME;
         String yamlPath = basePath + "." + YAML_EXTENSION;
         String propertiesPath = basePath + "." + PROPERTIES_EXTENSION;
         result = new File(yamlPath);

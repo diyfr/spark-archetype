@@ -24,7 +24,9 @@ public class SwaggerController {
     private final static String PATH = "api/";
     private final static String PATH_1 = "api";
     private final static String PATH_API_YAML = "api/swagger.yaml";
+    private final static String PATH_API_YML = "api/swagger.yml";
     private final static String PATH_API_JSON = "api/swagger.json";
+    private final static String PATH_API_JS = "api/swagger.js";
 
     @Inject
     private Properties properties;
@@ -34,12 +36,14 @@ public class SwaggerController {
     public void init() {
         Spark.get(PATH, redirectToGetSwaggerModel);
         Spark.get(PATH_API_YAML, getSwaggerModel);
+        Spark.get(PATH_API_YML, getSwaggerModel);
         Spark.get(PATH_1, redirectToGetSwaggerModel);
         Spark.get(PATH_API_JSON, getSwaggerModelJson);
+        Spark.get(PATH_API_JS, getSwaggerModelJson);
 
     }
 
-    private Route redirectToGetSwaggerModel = (Request request, Response response) -> {
+    private final Route redirectToGetSwaggerModel = (Request request, Response response) -> {
         String baseUrl = request.url();
         if (!baseUrl.substring(baseUrl.length() - 1).equals("/")) {
             baseUrl += "/";
@@ -49,12 +53,12 @@ public class SwaggerController {
 
     };
 
-    private Route getSwaggerModel = (Request request, Response response) -> {
+    private final Route getSwaggerModel = (Request request, Response response) -> {
         response.header("Content-type", "application/text; charset=UTF8");
-        return updatedSwaggerModel("/swagger.yaml");
+        return updatedSwaggerModel("/swagger.yml");
 
     };
-    private Route getSwaggerModelJson = (Request request, Response response) -> {
+    private final Route getSwaggerModelJson = (Request request, Response response) -> {
         response.header("Content-type", "application/json; charset=UTF8");
         return updatedSwaggerModel("/swagger.json");
     };
