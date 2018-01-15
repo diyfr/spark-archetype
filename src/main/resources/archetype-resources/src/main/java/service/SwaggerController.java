@@ -44,10 +44,12 @@ public class SwaggerController {
     }
 
     private final Route redirectToGetSwaggerModel = (Request request, Response response) -> {
-        String baseUrl = request.url();
-        if (!baseUrl.substring(baseUrl.length() - 1).equals("/")) {
-            baseUrl += "/";
-        }
+  	String baseUrl = properties.getString("swagger-ui.scheme")
+                + "://"
+                + properties.getString("swagger-ui.host")
+                + properties.getString("swagger-ui.basePath")
+                + "/"
+                + PATH;
         response.redirect(baseUrl + "swagger.json");
         return null;
 

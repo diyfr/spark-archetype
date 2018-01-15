@@ -113,7 +113,6 @@ public class LogBackConfiguration {
             }
         } else {
             log.error("Default logback configuration");
-            return;
         }
     }
 

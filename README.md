@@ -9,6 +9,7 @@
 * Custom properties loader (Yaml UTF8 format or classic properties file)   
 * Swagger model exposition  
 * Dockerfile and Drone configuration for CI  
+* Logback configuration
 
 Result a jar less than 10 Mo  ;)
 
@@ -60,6 +61,7 @@ Use repository : inject repository in your business class
 - Update your Swagger model
 - Update your registry in .drone.yml
 - Update pom.xml with your developper informations
+- configure logback configuration.
 
 Build and launch !
  
@@ -69,4 +71,5 @@ cd target
 java -jar  <GROUP_ID>.<ARTIFACT_ID>.jar  
 ```
 
-
+Notes:  
+ (https://logback.qos.ch/manual/layouts.html#conversionWord)[https://logback.qos.ch/manual/layouts.html#conversionWord]

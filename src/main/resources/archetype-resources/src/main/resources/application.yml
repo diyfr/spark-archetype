@@ -1,16 +1,23 @@
+# You can use an external copy of this configuration file.
+# This file can be located
+#- in same directory of jar location execution
+#- in subdirectory of jar location execution
+#- Anywhere with specify param -Dlocation.config 
 server:
   port: 8080
   maxThreads: 8
   version: @project.version@
 # Log configuration
 logging:
+# In Docker image use base directory /logs    example : /logs/${artifactId}.log  
   file: "target/log/@project.name@.log"
 # Log profile extension, PRD or PROD equals null -> search logback.xml
 # Search filename with this format logback_${logging.profile}.xml
 # exemple "dev"  search logback_dev.xml
   profile: "dev"
 # Or Log configuration location
-# config: "config/logback.xml"
+# In Docker image use base directory /config
+# config: "/config/logback.xml"
 
 swagger-ui:
   host: "localhost:8080"
