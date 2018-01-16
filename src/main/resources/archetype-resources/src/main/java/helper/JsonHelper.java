@@ -39,13 +39,13 @@ public class JsonHelper {
      * @param message Message
      * @return String
      */
-    public static String responseError(int code, String message) {
+    public static String basicResponse(int code, String message) {
         final Gson gson = gsonBuilder
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
                 .registerTypeAdapter(Timestamp.class, new TimestampAdapter())
                 .create();
-        return gson.toJson(new Error(code, message));
+        return gson.toJson(new BasicResponse(code, message));
     }
 
     /**
@@ -92,20 +92,20 @@ public class JsonHelper {
     /**
      * Inner class for JSON response Error
      */
-    static class Error {
+    static class BasicResponse {
         @Expose
-        @SerializedName("error")
-        public final ErrorContent error;
+        @SerializedName("response")
+        public final ResponseContent error;
 
-        public Error(int code, String message) {
-            error = new ErrorContent(code, message);
+        public BasicResponse(int code, String message) {
+            error = new ResponseContent(code, message);
         }
     }
 
     /**
      * Inner class for JSON response Error
      */
-    static class ErrorContent {
+    static class ResponseContent {
 
 
         @Expose
@@ -113,10 +113,11 @@ public class JsonHelper {
         @Expose
         public final String message;
 
-        public ErrorContent(int code, String message) {
+        public ResponseContent(int code, String message) {
             this.code = code;
             this.message = message;
         }
 
     }
+
 }

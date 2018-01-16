@@ -13,3 +13,20 @@ host: "{{HOST}}"
 basePath: "{{BASE_PATH}}"
 schemes:
 - "{{SCHEME}}"
+
+definitions:
+  BasicResponse:
+    type: "object"
+    required:
+    - "code"
+    - "message"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+        description: "HTTP code"
+        example: "401"
+      message:
+        type: "string"
+        description: "Description"
+        example: "Unautorized"  

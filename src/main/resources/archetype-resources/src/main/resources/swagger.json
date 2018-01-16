@@ -18,4 +18,27 @@
   "schemes": [
     "{{SCHEME}}"
   ],
+  "definitions": {
+    "BasicResponse": {
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Http Code",
+          "example": 401
+        },
+        "message": {
+          "type": "string",
+          "description": "Description",
+          "example": "Unauthorized"
+        }
+      }
+    }
+  }
+
 }

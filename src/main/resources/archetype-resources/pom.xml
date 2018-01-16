@@ -19,7 +19,6 @@
         <postgresql-jdbc-version>9.4-1201-jdbc41</postgresql-jdbc-version>
         <sql2o-plugin-version>1.5.4</sql2o-plugin-version>
         <lombok-plugin-version>1.16.18</lombok-plugin-version>
-        <springframework-version>5.0.0.RELEASE</springframework-version>
         <logback-version>1.2.3</logback-version>
     </properties>
 
