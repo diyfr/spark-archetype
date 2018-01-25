@@ -71,5 +71,34 @@ cd target
 java -jar  <GROUP_ID>.<ARTIFACT_ID>.jar  
 ```
 
+
+### Upgrade SQL2o to 1.6.0-RC3
+For use ArrayList as query parameter (PostgreSql IN, ANY ...)  
+Edit pom.xm, replace <sql2o-plugin-version
+```xml
+        <sql2o-plugin-version>1.6.0-RC3</sql2o-plugin-version>
+```
+For PostgreSql you need an extension (Sql2o 1.6+)  
+```xml
+        <dependency>
+            <groupId>org.sql2o.extensions</groupId>
+            <artifactId>sql2o-postgres</artifactId>
+            <version>${sql2o-plugin-version}</version>
+        </dependency>
+```
+
+Edit <package>/config/Database.java
+
+replace
+```java
+  sql2o = new Sql2o(url, user, pass);
+```
+by
+```java
+  sql2o = new Sql2o(url, user, pass, new PostgresQuirks());
+```
+Add import `import org.sql2o.quirks.PostgresQuirks` 
+
+
 Notes:  
  (https://logback.qos.ch/manual/layouts.html#conversionWord)[https://logback.qos.ch/manual/layouts.html#conversionWord]

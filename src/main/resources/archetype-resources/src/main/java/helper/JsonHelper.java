@@ -7,6 +7,7 @@ import com.google.gson.*;
 import spark.Request;
 
 import java.lang.reflect.Type;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,6 +30,7 @@ public class JsonHelper {
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
                 .registerTypeAdapter(Timestamp.class, new TimestampAdapter())
+                .registerTypeAdapter(Date.class, new SqlDateAdapter())
                 .create();
         return gson.toJson(data);
     }
@@ -57,6 +59,17 @@ public class JsonHelper {
     public static boolean clientAcceptsJson(Request request) {
         String accept = request.headers("Accept");
         return accept != null && accept.contains("application/json");
+    }
+
+
+    /**
+     * Adapter for sql.Date
+     */
+    static class SqlDateAdapter implements JsonSerializer<Date> {
+
+        public JsonElement serialize(Date date, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(date.toLocalDate().format(DateTimeFormatter.ISO_LOCAL_DATE)); // "yyyy-mm-dd"
+        }
     }
 
     /**

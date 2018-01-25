@@ -48,8 +48,7 @@ public class SwaggerController {
                 + "://"
                 + properties.getString("swagger-ui.host")
                 + properties.getString("swagger-ui.basePath")
-                + "/"
-                + PATH;
+                + "/";
         response.redirect(baseUrl + "swagger.json");
         return null;
 
