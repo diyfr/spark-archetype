@@ -1,7 +1,7 @@
+#set ( $D = '$' )
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="30 seconds">
-    <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}/}spark.log}"/>
-
+    <property name="LOG_FILE" value="${D}{LOG_FILE:-${D}{LOG_PATH:-${D}{LOG_TEMP:-${D}{java.io.tmpdir:-/tmp}}/}spark.log}"/>
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg %n</Pattern>
@@ -13,10 +13,10 @@
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
         </encoder>
-        <file>${LOG_FILE}</file>
+        <file>${D}{LOG_FILE}</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
-            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}</fileNamePattern>
+            <fileNamePattern>${D}{LOG_FILE}.%d{yyyy-MM-dd}</fileNamePattern>
         </rollingPolicy>
     </appender>
 
