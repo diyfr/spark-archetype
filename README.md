@@ -42,6 +42,10 @@ mvn archetype:generate \
 -Dpackage=<YOUR_PACKAGE> \
 -DarchetypeCatalog=local 
 ```
+Or use Interactive (Debug) mode  
+```bash  
+mvn archetype:generate -DarchetypeCatalog=local -X  
+```  
 
 A new folder was created with <YOUR_ARTIFACT_ID> name , containing the source code of your project.  
 
