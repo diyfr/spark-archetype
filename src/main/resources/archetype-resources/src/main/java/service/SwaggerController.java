@@ -55,7 +55,7 @@ public class SwaggerController {
     };
 
     private final Route getSwaggerModel = (Request request, Response response) -> {
-        response.header("Content-type", "application/text; charset=UTF8");
+        response.header("Content-type", "text/plain; charset=UTF8");
         return updatedSwaggerModel("/swagger.yml");
 
     };
