@@ -4,6 +4,9 @@
 package ${groupId}.${artifactId}.service;
 
 import ${groupId}.${artifactId}.config.Properties;
+import ${groupId}.${artifactId}.helper.ResourceFileHelper;  
+import org.eclipse.jetty.http.HttpHeader;
+import org.eclipse.jetty.http.MimeTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Request;
@@ -11,13 +14,10 @@ import spark.Response;
 import spark.Route;
 import spark.Spark;
 
-import javax.inject.Singleton;
 import javax.inject.Inject;
-import java.io.BufferedReader;
+import javax.inject.Singleton;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
+     
 @Singleton
 public class SwaggerController {
 
@@ -28,6 +28,7 @@ public class SwaggerController {
     private final static String PATH_API_JSON = "api/swagger.json";
     private final static String PATH_API_JS = "api/swagger.js";
 
+    @SuppressWarnings("unused")
     @Inject
     private Properties properties;
 
@@ -44,48 +45,36 @@ public class SwaggerController {
     }
 
     private final Route redirectToGetSwaggerModel = (Request request, Response response) -> {
-  	String baseUrl = properties.getString("swagger-ui.scheme")
+        String baseUrl = properties.getString("swagger-ui.scheme")
                 + "://"
                 + properties.getString("swagger-ui.host")
                 + properties.getString("swagger-ui.basePath")
                 + "/";
         response.redirect(baseUrl + "swagger.json");
-        return null;
+        return "";
 
     };
 
     private final Route getSwaggerModel = (Request request, Response response) -> {
-        response.header("Content-type", "text/plain; charset=UTF8");
-        return updatedSwaggerModel("/swagger.yml");
+        response.header(HttpHeader.CONTENT_TYPE.asString(), "text/plain; charset=UTF8");
+        return updatedSwaggerModel("/swagger.yaml");
 
     };
     private final Route getSwaggerModelJson = (Request request, Response response) -> {
-        response.header("Content-type", "application/json; charset=UTF8");
+        response.header(HttpHeader.CONTENT_TYPE.asString(), MimeTypes.Type.APPLICATION_JSON.asString());
         return updatedSwaggerModel("/swagger.json");
     };
 
     private String updatedSwaggerModel(String resourceFileName) {
         String result = null;
         try {
-            result = readFromInputStream(getClass().getResourceAsStream(resourceFileName));
+            result = ResourceFileHelper.readFromInputStream(getClass().getResourceAsStream(resourceFileName));
             result = result.replace("{{HOST}}", properties.getString("swagger-ui.host"));
             result = result.replace("{{SCHEME}}", properties.getString("swagger-ui.scheme"));
             result = result.replace("{{BASE_PATH}}", properties.getString("swagger-ui.basePath"));
         } catch (IOException e) {
-            log.error("Access to resource file, failed :" + resourceFileName);
+            log.error(String.format("Access to resource file, failed : %s", resourceFileName));
         }
         return result;
     }
-
-    private String readFromInputStream(InputStream inputStream) throws IOException {
-        StringBuilder resultStringBuilder = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                resultStringBuilder.append(line).append("\n");
-            }
-        }
-        return resultStringBuilder.toString();
-    }
-
 }
