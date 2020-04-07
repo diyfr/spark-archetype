@@ -3,8 +3,7 @@
 #set( $symbol_escape = '\' )
 package ${groupId}.${artifactId}.config;
 
-import com.google.common.io.Files;
-import com.google.common.io.Resources;
+import ${groupId}.${artifactId}.helper.ResourceFileHelper;   
 import org.apache.commons.configuration2.*;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
@@ -47,7 +46,7 @@ public class Properties {
      */
     private File getFile(String path) {
         File result;
-        String basePath = (path != null) ? path + File.separator  + CONFIG_FILENAME : CONFIG_FILENAME;
+        String basePath = (path != null) ? path + File.separator + CONFIG_FILENAME : CONFIG_FILENAME;
         String yamlPath = basePath + "." + YAML_EXTENSION;
         String propertiesPath = basePath + "." + PROPERTIES_EXTENSION;
         result = new File(yamlPath);
@@ -64,12 +63,9 @@ public class Properties {
      * @return boolean
      */
     private boolean fileInClassPathExist(String name) {
-        boolean result = false;
-        try {
-            URL url = Resources.getResource(name);
-            result = true;
-        } catch (java.lang.IllegalArgumentException ignored) {
-
+        boolean result = ResourceFileHelper.fileInClassPathExist(name);
+        if (!result) {
+            log.info("Invalid URI on properties {}", name);
         }
         return result;
     }
@@ -77,6 +73,7 @@ public class Properties {
     /**
      * Load configuration file
      */
+    @SuppressWarnings("squid:S3776")
     private void loadConfiguration() {
         config = null;
         // 1 - Check System and Environnement file location
@@ -102,7 +99,7 @@ public class Properties {
         if (localFile.exists()) {
             // File exist
             locationConfigFile = localFile.getAbsolutePath();
-            switch (Files.getFileExtension(localFile.getAbsolutePath())) {
+            switch (ResourceFileHelper.getFileExtension(localFile.getAbsolutePath())) {
                 case YAML_EXTENSION:
                     builder = new FileBasedConfigurationBuilder<FileBasedConfiguration>(YAMLConfiguration.class)
                             .configure(params.fileBased()
@@ -140,10 +137,10 @@ public class Properties {
             try {
                 config = builder.getConfiguration();
                 if (config != null) {
-                    log.info("Configuration : Use " + locationConfigFile);
+                    log.info("Configuration : Use {}", locationConfigFile);
                 }
             } catch (ConfigurationException cex) {
-                log.error("Configuration : Error on " + locationConfigFile + " loading -> " + cex.getLocalizedMessage());
+                log.error(String.format("Configuration : Error on %s loading -> %s", locationConfigFile, cex.getLocalizedMessage()));
             }
         }
         if (config == null) {
@@ -199,6 +196,4 @@ public class Properties {
     public float getFloat(String key, float defaultValue) {
         return config.getFloat(key, defaultValue);
     }
-
-
 }
