@@ -14,12 +14,17 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java-version>1.8</java-version>
         <maven-compiler-plugin-version>3.6.1</maven-compiler-plugin-version>
-        <gson-plugin-version>2.8.1</gson-plugin-version>
-        <spark-core-plugin-version>2.8.0</spark-core-plugin-version>
-        <postgresql-jdbc-version>9.4-1201-jdbc41</postgresql-jdbc-version>
-        <sql2o-plugin-version>1.5.4</sql2o-plugin-version>
-        <lombok-plugin-version>1.16.18</lombok-plugin-version>
+        <gson-plugin-version>2.8.5</gson-plugin-version>
+        <spark-core-plugin-version>2.9.0</spark-core-plugin-version>
+        <postgresql-jdbc-version>42.2.5</postgresql-jdbc-version>
+        <sql2o-plugin-version>1.6.0</sql2o-plugin-version>
+        <lombok-plugin-version>1.18.12/lombok-plugin-version>
         <logback-version>1.2.3</logback-version>
+        <guice-version>4.2.2</guice-version>
+        <snakeyaml-version>1.24</snakeyaml-version>
+        <commons-configuration-version>2.4</commons-configuration-version>
+        <httpclient-version>4.5.8</httpclient-version>
+        <commons-beautils-version>1.9.3</commons-beautils-version>                 
     </properties>
 
     <dependencies>
@@ -50,10 +55,21 @@
             <artifactId>postgresql</artifactId>
             <version>${postgresql-jdbc-version}</version>
         </dependency>
+        <!-- Connection Pool -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>3.4.1</version>
+        </dependency>
         <!--  DAO light library-->
         <dependency>
             <groupId>org.sql2o</groupId>
             <artifactId>sql2o</artifactId>
+            <version>${sql2o-plugin-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sql2o.extensions</groupId>
+            <artifactId>sql2o-postgres</artifactId>
             <version>${sql2o-plugin-version}</version>
         </dependency>
         <dependency>
@@ -72,24 +88,30 @@
         <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
-            <version>4.1.0</version>
+            <version>${guice-version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>1.19</version>
+            <version>${snakeyaml-version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-configuration2</artifactId>
-            <version>2.2</version>
+            <version>${commons-configuration-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient-version}</version>
         </dependency>
 
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>1.9.3</version>
+            <version>${commons-beautils-version}</version>
         </dependency>
 
     </dependencies>
