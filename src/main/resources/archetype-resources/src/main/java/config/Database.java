@@ -3,10 +3,14 @@
 #set( $symbol_escape = '\' )
 package ${groupId}.${artifactId}.config;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
+import org.sql2o.Sql2oException;
+import org.sql2o.quirks.PostgresQuirks;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -25,11 +29,17 @@ public class Database {
 
     @Inject
     public Database(Properties properties) {
-        //ADD custom converters
+      //ADD custom converters
         String url = properties.getString("database.url");
         String user = properties.getString("database.user");
         String pass = properties.getString("database.password");
-        sql2o = new Sql2o(url, user, pass);
+        HikariConfig hikariConfig = new HikariConfig();
+        hikariConfig.setJdbcUrl(url);
+        hikariConfig.setUsername(user);
+        hikariConfig.setPassword(pass);
+        hikariConfig.setDriverClassName("org.postgresql.ds.PGSimpleDataSource");
+        HikariDataSource ds = new HikariDataSource(hikariConfig);
+        sql2o = new Sql2o(ds, new PostgresQuirks());
         tableVersionRepository = new TableVersionRepository(this);
     }
 
