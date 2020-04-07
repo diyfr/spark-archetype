@@ -6,7 +6,7 @@ package ${groupId}.${artifactId}.config;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
 import ch.qos.logback.core.joran.spi.JoranException;
-import com.google.common.io.Resources;
+import ${groupId}.${artifactId}.helper.ResourceFileHelper;     
 import org.apache.commons.configuration2.EnvironmentConfiguration;
 import org.apache.commons.configuration2.SystemConfiguration;
 import org.slf4j.Logger;
@@ -14,7 +14,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
 import java.io.File;
-import java.net.URL;
+
+     
+     
 
 @Singleton
 public class LogBackConfiguration {
@@ -23,7 +25,10 @@ public class LogBackConfiguration {
     private static final String CONFIG_FILENAME = "logback_{ENV}.xml";
 
 
+
     private static final Logger log = LoggerFactory.getLogger(LogBackConfiguration.class);
+
+    private static final LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 
     /**
      * Check if file exist in Classpath
@@ -32,12 +37,9 @@ public class LogBackConfiguration {
      * @return boolean
      */
     private boolean fileInClassPathExist(String name) {
-        boolean result = false;
-        try {
-            URL url = Resources.getResource(name);
-            result = true;
-        } catch (java.lang.IllegalArgumentException ignored) {
-
+        boolean result = ResourceFileHelper.fileInClassPathExist(name);
+        if (!result) {
+            log.info("Invalid URI on logback file {}", name);
         }
         return result;
     }
@@ -49,15 +51,16 @@ public class LogBackConfiguration {
      * Search filename with this format logback_${logging.profile}.xml
      * exemple environment = "dev"  search logback_dev.xml
      *
-     * @param ouputLogLocation Output Directory log
+     * @param ouputLogLocation         Output Directory log
      * @param logbackFileConfiguration Absolute path or file
      * @param profileExtension         Profile extension
      */
+    @SuppressWarnings("squid:S3776")
     public void setConfiguration(String ouputLogLocation, String logbackFileConfiguration, String profileExtension) {
         //set envrionment variable
-        setOuputFileLog((ouputLogLocation!=null)?ouputLogLocation:"");
+        setOuputFileLog((ouputLogLocation != null) ? ouputLogLocation : "");
 
-        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+
         File localFile;
         String filename;
         if (profileExtension == null) {
@@ -68,6 +71,7 @@ public class LogBackConfiguration {
         } else {
             filename = CONFIG_FILENAME.replace("{ENV}", profileExtension);
         }
+        log.info("Search Logback config file :{}", filename);
 
         if (logbackFileConfiguration == null) {
             // 1 - Check System and Environnement file location
@@ -90,7 +94,7 @@ public class LogBackConfiguration {
         } else {
             localFile = new File(logbackFileConfiguration);
             if (!localFile.exists()) {
-                log.error("File " + logbackFileConfiguration + " doesn't exist, Default logback configuration");
+                log.error("File {} doesn't exist, Default logback configuration", logbackFileConfiguration);
                 return;
             }
         }
@@ -100,16 +104,16 @@ public class LogBackConfiguration {
         if (localFile.exists()) {
             try {
                 configurator.doConfigure(localFile);
-                log.info("Loading logback from path " + localFile.getAbsolutePath());
+                log.info("Loading logback from path {}", localFile.getAbsolutePath());
             } catch (JoranException e) {
-                log.error("Loading logback from path " + localFile.getAbsolutePath() + " error:" + e.getMessage());
+                log.error(String.format("Loading logback from path %s error:%s", localFile.getAbsolutePath(), e.getMessage()));
             }
         } else if (fileInClassPathExist(filename)) {
             try {
-                configurator.doConfigure(Resources.getResource(filename));
-                log.info("Loading logback from classpath");
+                configurator.doConfigure(ResourceFileHelper.locateFromClasspath(filename));
+                log.info("Loading logback '{}' from classpath ", filename);
             } catch (JoranException e) {
-                log.error("Loading logback from classpath error:" + e.getMessage());
+                log.error(String.format("Loading logback '%s' from classpath error:%s", filename, e.getMessage()));
             }
         } else {
             log.error("Default logback configuration");
@@ -131,7 +135,7 @@ public class LogBackConfiguration {
     @SuppressWarnings("SameParameterValue")
     private void setSystemProperty(String name, String value) {
         if (System.getProperty(name) == null && value != null) {
-            log.info("Set output file log : '" + value);
+            log.info("Set output file log : {}", value);
             System.setProperty(name, value);
         }
     }
