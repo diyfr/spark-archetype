@@ -8,6 +8,7 @@ import com.google.inject.Injector;
 import ${groupId}.${artifactId}.config.LogBackConfiguration;
 import ${groupId}.${artifactId}.config.Properties;
 import ${groupId}.${artifactId}.service.SwaggerController;
+import ${groupId}.${artifactId}.service.HealthController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Spark;
@@ -21,6 +22,7 @@ import static spark.Spark.*;
 public class Application {
 
     private final SwaggerController swaggerController;
+    private final HealthController healthController;
     private final Properties properties;
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);
@@ -32,6 +34,7 @@ public class Application {
 
     @Inject
     public Application(SwaggerController swaggerController,
+                       HealthController healthController,
 		       Properties properties,
 		       LogBackConfiguration logBackConfiguration) {
         this.properties = properties;
@@ -55,6 +58,9 @@ public class Application {
 
         this.swaggerController = swaggerController;
         this.swaggerController.init();
+        this.healthController = healthController;
+        this.healthController.init();
+	    
         // can get Spark status after route initialized
 
         log.info("Swagger-ui params : "
