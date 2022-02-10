@@ -16,7 +16,7 @@
         <maven-compiler-plugin-version>3.6.1</maven-compiler-plugin-version>
         <gson-plugin-version>2.8.5</gson-plugin-version>
         <spark-core-plugin-version>2.9.0</spark-core-plugin-version>
-        <postgresql-jdbc-version>42.2.5</postgresql-jdbc-version>
+        <postgresql-jdbc-version>42.2.25</postgresql-jdbc-version>
         <sql2o-plugin-version>1.6.0</sql2o-plugin-version>
         <lombok-plugin-version>1.18.12/lombok-plugin-version>
         <logback-version>1.2.3</logback-version>
