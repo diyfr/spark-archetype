@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java-version>1.8</java-version>
         <maven-compiler-plugin-version>3.6.1</maven-compiler-plugin-version>
-        <gson-plugin-version>2.8.5</gson-plugin-version>
+        <gson-plugin-version>2.8.9</gson-plugin-version>
         <spark-core-plugin-version>2.9.0</spark-core-plugin-version>
         <postgresql-jdbc-version>42.2.5</postgresql-jdbc-version>
         <sql2o-plugin-version>1.6.0</sql2o-plugin-version>
